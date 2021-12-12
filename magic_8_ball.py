@@ -16,8 +16,14 @@ def main():
     random_number = randint(0, 8)
     name = input("What is your name?\n")
     question = input("What is your question?\n")
-    print(f"{name} asks: {question}")
-    print(f"Magic 8-Ball's answer: {answers[random_number]}")
+    if len(question) == 0:
+        print("No question was asked!")
+    elif len(name) == 0:
+        print(f"Question: {question}")
+        print(f"Magic 8-Ball's answer: {answers[random_number]}")
+    else:
+        print(f"{name} asks: {question}")
+        print(f"Magic 8-Ball's answer: {answers[random_number]}")
 
 
 if __name__ == "__main__":
