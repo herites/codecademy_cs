@@ -13,7 +13,7 @@ def main():
         "Outlook not so good.",
         "Very doubtful.",
     ]
-    random_number = randint(0, 8)
+    random_number = randint(0, len(answers) - 1)
     name = input("What is your name?\n")
     question = input("What is your question?\n")
     if len(question) == 0:
