@@ -1,3 +1,4 @@
 workbook.*
 *.vscode/
 .ropeproject
+.cs_101
