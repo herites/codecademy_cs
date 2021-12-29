@@ -2,3 +2,4 @@ workbook.*
 *.vscode/
 .ropeproject
 .cs_101
+venv
