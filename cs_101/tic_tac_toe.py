@@ -5,13 +5,11 @@ class Player:
     def __init__(self, marker="X", name=input("What is your name? ")) -> None:
         self.name = name
         self.marker = marker
-        pass
 
     def place_marker(self):
         row = int(input("In which row do you want to place a marker? "))
         column = int(input("In which column do you want to place a marker? "))
-        # print(f"You placed a marker in row {row}, column {column}.")
-        return [row, column]
+        return [row, column, self.marker]
 
 
 class Computer(Player):
@@ -23,24 +21,18 @@ class Computer(Player):
 
 class Board:
     def __init__(self) -> None:
-        self.play_area = [
-            [
-                " ",
-                " ",
-                " ",
-            ],
-            [" ", " ", " "],
-            [" ", " ", " "],
-        ]
+        self.play_area = [[" " for col in range(0, 3)] for row in range(0, 3)]
 
     def show(board):
         for i in board.play_area:
             print(i, sep="\n")
 
-    def update(self, marker_loc):
-        row = marker_loc[0] - 1
-        column = marker_loc[1] - 1
-        self.play_area[row][column] = "X"
+    def update(self, marker):
+        row = marker[0] - 1
+        column = marker[1] - 1
+        marker_type = marker[2]
+        self.play_area[row][column] = marker_type
+        print(f"{marker_type} was placed in row {marker[0]}, column {marker[1]}")
 
 
 def main():
@@ -54,9 +46,7 @@ def game_setup():
     board = Board()
     player1 = Player()
     computer = Computer()
-    print(
-        f"Hello {player1.name}! You will playing with {player1.marker} and you go first."
-    )
+    print(f"Hello {player1.name}! You will be {player1.marker} and you will go first.")
     print("This is the board you will be playing on:")
     board.show()
     return board, player1, computer
