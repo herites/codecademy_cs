@@ -11,6 +11,7 @@ class Player:
         self.column = int(input("In which column do you want to place a marker? "))
 
     def place_marker(self, board):
+        print(board.check_if_valid(self.row, self.column))
         board.update(self.row, self.column, self.marker)
         print(
             f"{self.marker} was placed in row {self.row}, column {self.column} by {self.name}"
@@ -38,9 +39,10 @@ class Board:
             print(i, sep="\n")
 
     def update(self, row, column, marker):
-        row_index = row - 1
-        column_index = column - 1
-        self.play_area[row_index][column_index] = marker
+        self.play_area[row - 1][column - 1] = marker
+
+    def check_if_valid(self, row, column):
+        return True if self.play_area[row - 1][column - 1] == " " else False
 
 
 def main():
