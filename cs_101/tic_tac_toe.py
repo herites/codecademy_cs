@@ -29,6 +29,8 @@ class Player:
         self.get_marker_loc(board)
         self.place_marker(board)
         board.check_win()
+        if board.won == True:
+            print(f"{self.name} wins!")
 
 
 class Computer(Player):
@@ -47,6 +49,7 @@ class Computer(Player):
 
 class Board:
     turn = 1
+    won = False
 
     def __init__(self) -> None:
         self.play_area = [[" " for col in range(0, 3)] for row in range(0, 3)]
@@ -63,22 +66,34 @@ class Board:
 
     def check_win(self):
         self.row_win()
+        self.column_win()
 
     def row_win(self):
         for row in self.play_area:
             if row.count(" ") == 0:
-                print("winner")
+                self.won = True
 
     def column_win(self):
+        cols = []
+        col_index = 0
+        for row in self.play_area:
+            cols.append([row[col_index] for row in self.play_area])
+            if col_index < len(row):
+                col_index += 1
+        for i in cols:
+            if i.count(" ") == 0:
+                self.won = True
         pass
 
 
 def main():
     win = False
     board, player1, computer = game_setup()
-    while board.turn < 7:
+    while board.turn < 5:
         player1.play_turn(board)
-        computer.play_turn(board)
+        # computer.play_turn(board)
+        if board.won == True:
+            break
 
 
 def game_setup():
