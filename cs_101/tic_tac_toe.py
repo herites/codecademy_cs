@@ -18,6 +18,11 @@ class Computer(Player):
         self.name = name
         self.marker = marker
 
+    def place_marker(self):
+        row = randint(0, 2)
+        column = randint(0, 2)
+        return [row, column, self.marker]
+
 
 class Board:
     def __init__(self) -> None:
@@ -39,6 +44,8 @@ def main():
     win = False
     board, player1, computer = game_setup()
     board.update(player1.place_marker())
+    board.show()
+    board.update(computer.place_marker())
     board.show()
 
 
