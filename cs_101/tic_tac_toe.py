@@ -6,11 +6,15 @@ class Player:
         self.name = name
         self.marker = marker
 
+    def get_marker_loc(self):
+        self.row = int(input("In which row do you want to place a marker? "))
+        self.column = int(input("In which column do you want to place a marker? "))
+
     def place_marker(self, board):
-        row = int(input("In which row do you want to place a marker? "))
-        column = int(input("In which column do you want to place a marker? "))
-        board.update(row, column, self.marker)
-        print(f"{self.marker} was placed in row {row}, column {column} by {self.name}")
+        board.update(self.row, self.column, self.marker)
+        print(
+            f"{self.marker} was placed in row {self.row}, column {self.column} by {self.name}"
+        )
         board.show()
 
 
@@ -20,12 +24,9 @@ class Computer(Player):
         self.name = name
         self.marker = marker
 
-    def place_marker(self, board):
-        row = randint(1, 3)
-        column = randint(1, 3)
-        board.update(row, column, self.marker)
-        print(f"{self.marker} was placed in row {row}, column {column} by {self.name}")
-        board.show()
+    def get_marker_loc(self):
+        self.row = randint(1, 3)
+        self.column = randint(1, 3)
 
 
 class Board:
@@ -45,7 +46,9 @@ class Board:
 def main():
     win = False
     board, player1, computer = game_setup()
+    player1.get_marker_loc()
     player1.place_marker(board)
+    computer.get_marker_loc()
     computer.place_marker(board)
 
 
