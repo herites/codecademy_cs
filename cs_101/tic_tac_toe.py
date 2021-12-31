@@ -19,16 +19,16 @@ class Player:
 
         board.update(self.row, self.column, self.marker)
         print(
-            f"{self.marker} was placed in row {self.row}, column {self.column} by {self.name}"
+            f"{self.marker} was placed in row {self.row}, column {self.column} by {self.name}."
         )
         board.show()
 
     def play_turn(self, board):
-        print(f"You are on turn {board.turn}")
+        print(f"This is turn {board.turn}, {self.name} acts.")
         board.turn += 1
         self.get_marker_loc(board)
         self.place_marker(board)
-        board.check_win()
+        board.check_win(self.marker)
         if board.won == True:
             print(f"{self.name} wins!")
 
@@ -64,16 +64,18 @@ class Board:
     def check_if_valid(self, row, column):
         return True if self.play_area[row - 1][column - 1] == " " else False
 
-    def check_win(self):
-        self.row_win()
-        self.column_win()
+    def check_win(self, marker):
+        self.row_win(marker)
+        self.column_win(marker)
+        self.left_to_right_diagonal_win(marker)
+        self.right_to_left_diagonal_win(marker)
 
-    def row_win(self):
+    def row_win(self, marker):
         for row in self.play_area:
-            if row.count(" ") == 0:
+            if row.count(marker) == 3:
                 self.won = True
 
-    def column_win(self):
+    def column_win(self, marker):
         cols = []
         col_index = 0
         for row in self.play_area:
@@ -81,30 +83,55 @@ class Board:
             if col_index < len(row):
                 col_index += 1
         for i in cols:
-            if i.count(" ") == 0:
+            if i.count(marker) == 3:
                 self.won = True
-        pass
+
+    def left_to_right_diagonal_win(self, marker):
+        diagonal = [row[index] for index, row in enumerate(self.play_area)]
+        if diagonal.count(marker) == 3:
+            self.won = True
+
+    def right_to_left_diagonal_win(self, marker):
+        col_index = len(self.play_area[-1]) - 1
+        diagonal = []
+        for row in self.play_area:
+            diagonal.append(row[col_index])
+            if col_index > 0:
+                col_index -= 1
+        if diagonal.count(marker) == 3:
+            self.won = True
 
 
 def main():
-    win = False
     board, player1, computer = game_setup()
-    while board.turn < 5:
+    while board.turn <= 9:
         player1.play_turn(board)
-        # computer.play_turn(board)
         if board.won == True:
             break
+        computer.play_turn(board)
+        if board.won == True:
+            break
+        if board.turn == 9:
+            print("Board is full, nobody wins.")
 
 
 def game_setup():
     board = Board()
     player1 = Player()
     computer = Computer()
-    print(f"Hello {player1.name}! You will be {player1.marker} and you will go first.")
-    print("This is the board you will be playing on:")
+    print(
+        f"""
+Welcome to Tic-Tac-Toe {player1.name}!
+You will play against a very stupid computer, try not to lose!
+Error checking is currently not implemented for user input, do not go out of bounds.
+Valid marker positions are integers between 1 and 3.
+You will be {player1.marker} and you will go first.
+This is the board you will be playing on:"""
+    )
     board.show()
     return board, player1, computer
 
 
 if __name__ == "__main__":
+
     main()
