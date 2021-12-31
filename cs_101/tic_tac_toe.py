@@ -35,7 +35,7 @@ class Player:
 
 class Computer(Player):
     def __init__(self, name="Computer", marker="O") -> None:
-        super().__init__(name)
+        super().__init__()
         self.name = name
         self.marker = marker
 
@@ -133,5 +133,4 @@ This is the board you will be playing on:"""
 
 
 if __name__ == "__main__":
-
     main()
