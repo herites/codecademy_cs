@@ -23,6 +23,10 @@ class Player:
         )
         board.show()
 
+    def play_turn(self, board):
+        self.get_marker_loc(board)
+        self.place_marker(board)
+
 
 class Computer(Player):
     def __init__(self, name="Computer", marker="O") -> None:
@@ -56,12 +60,8 @@ class Board:
 def main():
     win = False
     board, player1, computer = game_setup()
-    player1.get_marker_loc(board)
-    player1.place_marker(board)
-    computer.get_marker_loc(board)
-    computer.place_marker(board)
-    player1.get_marker_loc(board)
-    player1.place_marker(board)
+    player1.play_turn(board)
+    computer.play_turn(board)
 
 
 def game_setup():
