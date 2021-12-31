@@ -6,10 +6,12 @@ class Player:
         self.name = name
         self.marker = marker
 
-    def place_marker(self):
+    def place_marker(self, board):
         row = int(input("In which row do you want to place a marker? "))
         column = int(input("In which column do you want to place a marker? "))
-        return [row, column, self.marker]
+        board.update(row, column, self.marker)
+        print(f"{self.marker} was placed in row {row}, column {column} by {self.name}")
+        board.show()
 
 
 class Computer(Player):
@@ -18,10 +20,12 @@ class Computer(Player):
         self.name = name
         self.marker = marker
 
-    def place_marker(self):
-        row = randint(0, 2)
-        column = randint(0, 2)
-        return [row, column, self.marker]
+    def place_marker(self, board):
+        row = randint(1, 3)
+        column = randint(1, 3)
+        board.update(row, column, self.marker)
+        print(f"{self.marker} was placed in row {row}, column {column} by {self.name}")
+        board.show()
 
 
 class Board:
@@ -32,21 +36,17 @@ class Board:
         for i in board.play_area:
             print(i, sep="\n")
 
-    def update(self, marker):
-        row = marker[0] - 1
-        column = marker[1] - 1
-        marker_type = marker[2]
-        self.play_area[row][column] = marker_type
-        print(f"{marker_type} was placed in row {marker[0]}, column {marker[1]}")
+    def update(self, row, column, marker):
+        row_index = row - 1
+        column_index = column - 1
+        self.play_area[row_index][column_index] = marker
 
 
 def main():
     win = False
     board, player1, computer = game_setup()
-    board.update(player1.place_marker())
-    board.show()
-    board.update(computer.place_marker())
-    board.show()
+    player1.place_marker(board)
+    computer.place_marker(board)
 
 
 def game_setup():
