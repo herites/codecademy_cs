@@ -24,8 +24,11 @@ class Player:
         board.show()
 
     def play_turn(self, board):
+        print(f"You are on turn {board.turn}")
+        board.turn += 1
         self.get_marker_loc(board)
         self.place_marker(board)
+        board.check_win()
 
 
 class Computer(Player):
@@ -43,6 +46,8 @@ class Computer(Player):
 
 
 class Board:
+    turn = 1
+
     def __init__(self) -> None:
         self.play_area = [[" " for col in range(0, 3)] for row in range(0, 3)]
 
@@ -56,12 +61,24 @@ class Board:
     def check_if_valid(self, row, column):
         return True if self.play_area[row - 1][column - 1] == " " else False
 
+    def check_win(self):
+        self.row_win()
+
+    def row_win(self):
+        for row in self.play_area:
+            if row.count(" ") == 0:
+                print("winner")
+
+    def column_win(self):
+        pass
+
 
 def main():
     win = False
     board, player1, computer = game_setup()
-    player1.play_turn(board)
-    computer.play_turn(board)
+    while board.turn < 7:
+        player1.play_turn(board)
+        computer.play_turn(board)
 
 
 def game_setup():
