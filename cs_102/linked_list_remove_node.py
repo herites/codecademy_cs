@@ -1,8 +1,9 @@
 #%%
 class Node:
-    def __init__(self, value, next_node=None):
+    def __init__(self, value, next_node=None, index=0):
         self.value = value
         self.next_node = next_node
+        self.index = index
 
     def __repr__(self):
         return self.value
@@ -16,6 +17,9 @@ class Node:
     def set_next_node(self, next_node):
         self.next_node = next_node
 
+    def get_index(self):
+        return self.index
+
 
 class LinkedList:
     def __init__(self, value=None):
@@ -26,7 +30,7 @@ class LinkedList:
         return self.head_node
 
     def insert_beginning(self, new_value):
-        new_node = Node(new_value, next_node=self.head_node)
+        new_node = Node(new_value, next_node=self.head_node, index=self.length)
         self.head_node = new_node
         self.length += 1
 
@@ -74,15 +78,27 @@ class LinkedList:
     def get_length(self):
         return self.length
 
+    def stringify_list_with_index(self):
+        string_list = ""
+        current_node = self.get_head_node()
+        while current_node:
+            if current_node.get_value() != None:
+                string_list += (
+                    f"Value: {current_node.get_value()}, index: {current_node.get_index()}"
+                    + "\n"
+                )
+            current_node = current_node.get_next_node()
+        return string_list
+
 
 ll = LinkedList(8)
 ll.insert_beginning(10)
 ll.insert_beginning(10)
 ll.insert_beginning(10)
 ll.insert_beginning(21)
-print(ll.stringify_list())
+print(ll.stringify_list_with_index())
 print(f"list is {ll.get_length()} items long")
 # ll.remove_first_node(21)
-ll.remove_all_nodes(8)
-print(ll.stringify_list())
+ll.remove_all_nodes(10)
+print(ll.stringify_list_with_index())
 print(f"list is {ll.get_length()} items long")
