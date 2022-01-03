@@ -58,10 +58,11 @@ class LinkedList:
                 if next_node:
                     if next_node.value == value_to_remove:
                         current_node.next = next_node.next
+                        self.length -= 1
                     else:
                         current_node = next_node
                 else:
-                    current_node = next_node
+                    current_node = None
 
 
 ll = LinkedList(5)
